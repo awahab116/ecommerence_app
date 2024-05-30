@@ -17,7 +17,7 @@ export default function Navbar() {
           height={52}
         />
         <div className="flex align-center">
-          <Link href="/profile" className="flex align-end px-3 py-4">
+          <Link href="/login" className="flex align-end px-3 py-4">
             <Image
               src="/profile.svg"
               width={27}
@@ -46,15 +46,6 @@ export default function Navbar() {
         <li className="px-5 py-4">BLOGS</li>
         <li className="px-5 py-4">CONTACT US</li>
       </ul>
-      <div className="w-full">
-        <Image
-          src="/home-image1.webp"
-          alt="Home Image"
-          layout="responsive"
-          width={1920} // assuming your image has a width of 1920px
-          height={1080} // assuming your image has a height of 1080px
-        />
-      </div>
     </div>
   );
 }

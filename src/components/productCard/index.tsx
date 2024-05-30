@@ -8,16 +8,21 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-export default function ProductCard() {
+export default function ProductCard({ imageHeight }: { imageHeight: string }) {
   return (
-    <Card className="rounded-[15px] overflow-hidden">
+    <Card className="rounded-[15px] overflow-hidden h-full">
       <CardHeader className="p-0 m-0">
-        <div className="relative w-full h-[550px]">
+        <div
+          className="relative"
+          style={{
+            height: imageHeight,
+          }}
+        >
           <Image
             src="/card-image.webp"
             alt="Product Image"
-            layout="fill"
-            objectFit="cover"
+            fill
+            objectFit="fill"
             className="rounded-t-[15px]"
           />
         </div>
