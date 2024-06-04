@@ -102,7 +102,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex justify-center items-center py-[30px] border-t border-white">
-          <span>
+          <span className="text-center">
             © 2024 Scents N Stories Pvt Ltd. support@scentsnstories.pk
           </span>
         </div>

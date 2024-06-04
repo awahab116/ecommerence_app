@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function PageHeading() {
+export default function PageHeading({ title }: { title: string }) {
   return (
-    <div className="px-10 pt-[35px]">
-      <h1 className="font-bold text-4xl">Page Heading</h1>
+    <div>
+      <h1 className="font-bold text-4xl">{title}</h1>
     </div>
   );
 }

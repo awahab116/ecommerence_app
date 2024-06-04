@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Inter } from "next/font/google";
+import ReduxWrapper from "@/provider/redux/ReduxWrapper";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,12 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <ReduxWrapper>
+      <html lang="en">
+        <body className={inter.className}>
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </ReduxWrapper>
   );
 }

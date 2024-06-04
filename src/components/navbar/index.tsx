@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <div className="bg-black text-white ">
       {/* Line 1 */}
-      <div className="flex justify-between items-center px-10 py-0">
+      <div className="flex flex-wrap justify-between items-center px-10 py-0">
         <SearchBar />
         {/* <div>Icon</div> */}
         <Image
