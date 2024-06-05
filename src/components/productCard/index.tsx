@@ -10,7 +10,13 @@ import {
 } from "@/components/ui/card";
 import { ProductInfo } from "@/interfaces/product.interface";
 
-export default function ProductCard({ product }: { product: ProductInfo }) {
+export default function ProductCard({
+  product,
+  height,
+}: {
+  product: ProductInfo;
+  height: string;
+}) {
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -24,14 +30,23 @@ export default function ProductCard({ product }: { product: ProductInfo }) {
             alt={product.title}
             width={200}
             height={200}
-            layout="responsive"
-            className="rounded-t-[15px]"
+            // objectFit="cover"
+            // layout="responsive"
+            className={`rounded-t-[15px] ${
+              height == "400px" ? "h-[400px]" : "h-[600px]"
+            } w-full object-contain`}
           />
         </CardHeader>
-        <CardContent className="bg-gray-100 p-4">
-          <CardTitle>{product.title}</CardTitle>
-          <CardDescription>{product.description}</CardDescription>
-          <div>${product.price}</div>
+        <CardContent className="bg-gray-50 p-4 h-full">
+          <CardTitle className="text-[16px] font-normal overflow-hidden whitespace-nowrap text-ellipsis leading-8">
+            {product.title}
+          </CardTitle>
+          <CardDescription className="text-[16px] font-normal text-gray-400 overflow-hidden whitespace-nowrap text-ellipsis leading-10">
+            {product.description}
+          </CardDescription>
+          <CardDescription className="text-[18px] font-semibold text-[#C21010]">
+            Rs {product.price}
+          </CardDescription>
         </CardContent>
       </Card>
     </Link>

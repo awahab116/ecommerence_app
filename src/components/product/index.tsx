@@ -1,7 +1,6 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { ProductInfo } from "@/interfaces/productInfo.interface";
+import { ProductInfo } from "@/interfaces/product.interface";
 import {
   Select,
   SelectContent,
@@ -13,6 +12,9 @@ import {
 } from "../ui/select";
 import QuantitySelector from "../quantitySelector";
 import { Button } from "../ui/button";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/provider/redux/store";
+import { addProduct } from "@/provider/redux/cartSlice";
 
 type TabData = {
   [key: string]: string;
@@ -28,9 +30,14 @@ const productTabs = [
 
 export default function Product({ product }: { product: ProductInfo }) {
   const [selectedTab, setSelectedTab] = useState<string>("BRIEF");
+  const dispatch: AppDispatch = useDispatch();
 
   const handleTabClick = (tab: string) => {
     setSelectedTab(tab);
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addProduct({ productId: product.id, quantity: 1 }));
   };
 
   const tabData: TabData = {
@@ -43,7 +50,7 @@ export default function Product({ product }: { product: ProductInfo }) {
 
   return (
     <div className="grid grid-cols-2 gap-5 px-10">
-      <div className="flex gap-3 mt-[10px]">
+      <div className="flex gap-3 mt-[10px] w-calc-width">
         <div>
           <div className="relative h-[120px] w-[80px] overflow-hidden border border-gray-300 mb-[15px] ">
             <Image
@@ -144,21 +151,17 @@ export default function Product({ product }: { product: ProductInfo }) {
           </div>
         </div>
         <div>
-          <p className="font-bold">is it gift?</p>
+          <p className="font-bold">Is it a gift?</p>
         </div>
-        <Button className="font-bold rounded-[25px] bg-[#C21010] hover:bg-[#C21010]">
+        <Button
+          className="font-bold rounded-[25px] bg-[#C21010] hover:bg-[#C21010]"
+          onClick={handleAddToCart}
+        >
           Add To Cart
         </Button>
-
         <div>
-          <ul className="flex items-center justify-between bg-black font-bold text-white rounded-t-lg">
-            {[
-              "BRIEF",
-              "DESCRIPTION",
-              "PERFORMANCE",
-              "SHIPPING",
-              "UNBOXING VIDEO",
-            ].map((tab) => (
+          <ul className="flex flex-wrap items-center justify-between bg-black font-bold text-white rounded-t-lg">
+            {productTabs.map((tab) => (
               <li
                 key={tab}
                 className={`px-2 py-2 cursor-pointer text-center ${

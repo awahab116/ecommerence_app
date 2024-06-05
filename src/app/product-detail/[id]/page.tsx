@@ -1,32 +1,33 @@
 "use client";
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import { ProductInfo } from "@/interfaces/productInfo.interface";
 import Image from "next/image";
 import Product from "@/components/product";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import UserReview from "@/components/userReview";
+import { useGetProductByIdQuery } from "@/provider/redux/query/product";
 
 export default function ProductDetails() {
   const params = useParams<{ id: string }>();
   console.log(params);
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useGetProductByIdQuery(Number(params.id));
+  console.log("product data by id is ", product);
 
   const [activeTab, setActiveTab] = useState<"reviews" | "questions">(
     "reviews"
   );
 
-  const product: ProductInfo = {
-    id: "1",
-    title: "Product 1",
-    description: "This is a product",
-    price: 100,
-    image: "/card-image.webp",
-  };
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading product data.</p>;
 
   return (
     <div className="pt-10">
-      <Product product={product} />
+      {product && <Product product={product} />}
       <Image
         width={1600}
         height={500}

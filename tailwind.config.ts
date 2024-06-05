@@ -21,6 +21,12 @@ const config = {
       gridTemplateColumns: {
         "auto-fill-minmax": "repeat(5, minmax(200px, 1fr))",
       },
+      maxHeight: {
+        "calc-height": "calc(100vh - 60px)",
+      },
+      width: {
+        "calc-width": "calc(100% - 80px)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
