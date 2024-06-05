@@ -22,12 +22,14 @@ export default function Navbar() {
       <div className="flex flex-wrap justify-between items-center px-10 py-0">
         <SearchBar />
         {/* <div>Icon</div> */}
-        <Image
-          src="/Main_Logo.avif"
-          alt="Picture of the author"
-          width={240}
-          height={52}
-        />
+        <Link href="/">
+          <Image
+            src="/Main_Logo.avif"
+            alt="Picture of the author"
+            width={240}
+            height={52}
+          />
+        </Link>
         <div className="flex align-center">
           <Link href="/login" className="flex align-end px-3 py-4">
             <Image

@@ -37,7 +37,7 @@ export default function Product({ product }: { product: ProductInfo }) {
   };
 
   const handleAddToCart = () => {
-    dispatch(addProduct({ productId: product.id, quantity: 1 }));
+    dispatch(addProduct({ productId: product.id, price: product.price }));
   };
 
   const tabData: TabData = {
@@ -119,7 +119,11 @@ export default function Product({ product }: { product: ProductInfo }) {
         </div>
         <div>
           <p>Quantity</p>
-          <QuantitySelector />
+          <QuantitySelector
+            productId={product.id}
+            initialQuantity={1}
+            price={product.price}
+          />
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">

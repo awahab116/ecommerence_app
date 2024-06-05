@@ -11,6 +11,12 @@ export const productApi = createApi({
         method: "GET",
       }),
     }),
+    getProductByLimit: builder.query<ProductInfo[], number>({
+      query: (limit) => ({
+        url: `/products?limit=${limit}`,
+        method: "GET",
+      }),
+    }),
     getProductById: builder.query<ProductInfo, number>({
       query: (id) => ({
         url: `/products/${id}`,
@@ -20,4 +26,8 @@ export const productApi = createApi({
   }),
 });
 
-export const { useGetProductQuery, useGetProductByIdQuery } = productApi;
+export const {
+  useGetProductQuery,
+  useGetProductByLimitQuery,
+  useGetProductByIdQuery,
+} = productApi;

@@ -21,7 +21,11 @@ export default function Cart() {
     <div className="flex flex-col max-h-calc-height">
       <div className="overflow-auto px-5 pt-5 flex-grow">
         {cart.products.map((item) => (
-          <CartItem key={item.productId} productId={item.productId} />
+          <CartItem
+            key={item.productId}
+            productId={item.productId}
+            quantity={item.quantity}
+          />
         ))}
         <div className="mt-5">
           <div className="flex items-center">
@@ -62,7 +66,9 @@ export default function Cart() {
       <div className="bg-white p-5 border-t border-gray-300">
         <div className="flex justify-between mb-5">
           <p className="font-bold text-black">Subtotal</p>
-          <p className="font-bold text-black">Rs 1390</p>
+          <p className="font-bold text-black">
+            Rs {cart.totalPrice.toFixed(2)}
+          </p>
         </div>
         <Button className="bg-[#C21010] text-white font-bold rounded-[25px] mb-5 w-full">
           Checkout

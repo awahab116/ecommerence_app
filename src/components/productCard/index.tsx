@@ -33,7 +33,11 @@ export default function ProductCard({
             // objectFit="cover"
             // layout="responsive"
             className={`rounded-t-[15px] ${
-              height == "400px" ? "h-[400px]" : "h-[600px]"
+              height == "400px"
+                ? "h-[400px]"
+                : height == "250px"
+                ? "h-[250px]"
+                : "h-[600px]"
             } w-full object-contain`}
           />
         </CardHeader>

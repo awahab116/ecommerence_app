@@ -7,14 +7,12 @@ import { useGetProductQuery } from "@/provider/redux/query/product";
 import { ProductInfo } from "@/interfaces/product.interface";
 
 export default function Product() {
-  const { data, isLoading, isError } = useGetProductQuery({});
+  const { data, isLoading, isError } = useGetProductQuery();
   console.log({ data, isLoading, isError });
 
-  // Handle loading and error states
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading products</div>;
 
-  // Ensure data is defined and has the expected type
   const products: ProductInfo[] = data || [];
 
   return (

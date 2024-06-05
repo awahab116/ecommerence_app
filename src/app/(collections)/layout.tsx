@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import ProductCard from "@/components/productCard";
 import Sidebar from "@/components/sidebar";
+import RecentProducts from "@/components/recentProducts";
 
 const CollectionLayout = ({
   children,
@@ -24,18 +25,7 @@ const CollectionLayout = ({
           <Sidebar />
           {children}
         </div>
-        <div className="flex flex-col w-full my-[60px]">
-          <h1 className="font-bold text-2xl">Recently reviewed</h1>
-          <div
-            className={`grid grid-cols-auto-fill-minmax gap-3 mt-3 overflow-x-auto`}
-          >
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-          </div>
-        </div>
+        <RecentProducts />
       </div>
     </main>
   );
