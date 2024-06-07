@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useGetProductByLimitQuery } from "@/provider/redux/query/product";
 import ProductCard from "@/components/productCard";

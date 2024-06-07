@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   Select,
@@ -18,6 +18,7 @@ import { useGetProductByIdQuery } from "@/provider/redux/query/product";
 import ProductTabs from "@/components/productTabs";
 
 export default function Product({ productId }: { productId: number }) {
+  const [quantity, setQuantity] = useState<number>(1);
   const dispatch: AppDispatch = useDispatch();
   const { data: product, error, isLoading } = useGetProductByIdQuery(productId);
 
@@ -26,8 +27,14 @@ export default function Product({ productId }: { productId: number }) {
 
   const handleAddToCart = () => {
     if (product) {
-      dispatch(addProduct({ productId: product.id, price: product.price }));
+      dispatch(
+        addProduct({ productId: product.id, quantity, price: product.price })
+      );
     }
+  };
+
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
   };
 
   return (
@@ -104,9 +111,8 @@ export default function Product({ productId }: { productId: number }) {
             <div>
               <p>Quantity</p>
               <QuantitySelector
-                productId={product.id}
-                initialQuantity={1}
-                price={product.price}
+                onQuantityChange={handleQuantityChange}
+                initialQuantity={quantity}
                 disabled={false}
               />
             </div>

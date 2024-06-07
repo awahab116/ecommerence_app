@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import QuantitySelector from "../quantitySelector";
 import { useGetProductByIdQuery } from "@/provider/redux/query/product";
+import { useDispatch } from "react-redux";
+import { updateProductQuantity } from "@/provider/redux/cartSlice";
 
 interface CartItemProps {
   productId: number;
@@ -11,10 +13,25 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({
   productId,
-  quantity,
+  quantity: initialQuantity,
   disableQuantityChange,
 }) => {
   const { data: product, error, isLoading } = useGetProductByIdQuery(productId);
+  const [quantity, setQuantity] = useState(initialQuantity);
+  const dispatch = useDispatch();
+
+  const handleQuantityChange = (newQuantity: number) => {
+    console.log("handleQuantityChange", newQuantity);
+    setQuantity(newQuantity); // Update local state with new quantity
+    // Dispatch action to update product quantity in the cart
+    dispatch(
+      updateProductQuantity({
+        productId,
+        quantity: newQuantity,
+        price: product?.price,
+      })
+    );
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading product</div>;
@@ -37,10 +54,9 @@ const CartItem: React.FC<CartItemProps> = ({
         </div>
         <div className="flex justify-between items-center">
           <QuantitySelector
-            productId={productId}
             initialQuantity={quantity}
-            price={product?.price ? product.price : 0}
             disabled={disableQuantityChange}
+            onQuantityChange={handleQuantityChange}
           />
           <p className="text-[18px] font-bold">
             Rs. {product?.price ? product.price * quantity : 0}

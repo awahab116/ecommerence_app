@@ -1,30 +1,24 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateProductQuantity } from "@/provider/redux/cartSlice";
 
 interface QuantitySelectorProps {
-  productId: number;
   initialQuantity: number;
-  price: number;
   disabled: boolean;
+  onQuantityChange: (quantity: number) => void;
 }
 
 export default function QuantitySelector({
-  productId,
   initialQuantity,
-  price,
   disabled,
+  onQuantityChange,
 }: QuantitySelectorProps) {
   const [quantity, setQuantity] = useState(initialQuantity);
-  const dispatch = useDispatch();
+  console.log("initialQuantity", initialQuantity);
 
   const incrementQuantity = () => {
     if (!disabled) {
       const newQuantity = quantity + 1;
       setQuantity(newQuantity);
-      dispatch(
-        updateProductQuantity({ productId, price, quantity: newQuantity })
-      );
+      onQuantityChange(newQuantity);
     }
   };
 
@@ -32,9 +26,7 @@ export default function QuantitySelector({
     if (!disabled && quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      dispatch(
-        updateProductQuantity({ productId, price, quantity: newQuantity })
-      );
+      onQuantityChange(newQuantity);
     }
   };
 
