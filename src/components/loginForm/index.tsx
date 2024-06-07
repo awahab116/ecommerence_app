@@ -30,10 +30,7 @@ export function LoginForm() {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
@@ -58,7 +55,6 @@ export function LoginForm() {
                     placeholder="email@example.com"
                     {...field}
                     className="max-w-[400px] font-light py-2 px-[10px]  w-full"
-                    // style={{ marginBottom: "30px" }}
                   />
                 </FormControl>
                 <FormMessage />

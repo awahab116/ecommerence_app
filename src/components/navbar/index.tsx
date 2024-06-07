@@ -18,10 +18,9 @@ export default function Navbar() {
 
   return (
     <div className="relative bg-black text-white">
-      {/* Line 1 */}
       <div className="flex flex-wrap justify-between items-center px-10 py-0">
         <SearchBar />
-        {/* <div>Icon</div> */}
+
         <Link href="/">
           <Image
             src="/Main_Logo.avif"
@@ -50,10 +49,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Line 2 */}
       <div className="border-b-[0.5px] border-gray"></div>
 
-      {/* Line 3 */}
       <ul className="flex flex-wrap justify-center items-center px-10 py-0">
         <li className="px-5 py-4">SHOPS</li>
         <li className="px-5 py-4">WEEKLY DEALS</li>
@@ -64,7 +61,6 @@ export default function Navbar() {
         <li className="px-5 py-4">CONTACT US</li>
       </ul>
 
-      {/* Cart Menu */}
       {showCart && (
         <div className="absolute top-[60px] right-[92px] w-full h-full flex justify-end z-50">
           <div className="bg-white w-[450px] h-fit overflow-y-auto shadow-lg">

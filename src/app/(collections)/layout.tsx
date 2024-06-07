@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import ProductCard from "@/components/productCard";
 import Sidebar from "@/components/sidebar";
 import RecentProducts from "@/components/recentProducts";
 

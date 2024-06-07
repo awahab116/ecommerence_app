@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { ProductInfo } from "@/interfaces/product.interface";
 import {
   Select,
   SelectContent,

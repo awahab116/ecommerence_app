@@ -10,7 +10,6 @@ const QuestionSection = () => {
           <Button className="bg-black text-white px-16">Ask a Question</Button>
         </div>
       </div>
-      {/* Replace with your actual question components */}
       <div>Question 1</div>
       <div>Question 2</div>
       <div>Question 3</div>
