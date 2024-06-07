@@ -6,9 +6,14 @@ import { useGetProductByIdQuery } from "@/provider/redux/query/product";
 interface CartItemProps {
   productId: number;
   quantity: number;
+  disableQuantityChange: boolean;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ productId, quantity }) => {
+const CartItem: React.FC<CartItemProps> = ({
+  productId,
+  quantity,
+  disableQuantityChange,
+}) => {
   const { data: product, error, isLoading } = useGetProductByIdQuery(productId);
 
   if (isLoading) return <div>Loading...</div>;
@@ -35,6 +40,7 @@ const CartItem: React.FC<CartItemProps> = ({ productId, quantity }) => {
             productId={productId}
             initialQuantity={quantity}
             price={product?.price ? product.price : 0}
+            disabled={disableQuantityChange}
           />
           <p className="text-[18px] font-bold">
             Rs. {product?.price ? product.price * quantity : 0}

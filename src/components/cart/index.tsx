@@ -4,10 +4,16 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/provider/redux/store";
+import { useRouter } from "next/navigation";
 
-export default function Cart() {
+interface CartProps {
+  setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Cart: React.FC<CartProps> = ({ setShowCart }) => {
   const [isAddingNote, setIsAddingNote] = useState(false);
   const cart = useSelector((state: RootState) => state.cart);
+  const router = useRouter();
 
   const handleAddNoteClick = () => {
     setIsAddingNote(true);
@@ -15,6 +21,11 @@ export default function Cart() {
 
   const handleCloseNoteClick = () => {
     setIsAddingNote(false);
+  };
+
+  const handleCheckout = () => {
+    setShowCart(false);
+    router.push("/checkout");
   };
 
   return (
@@ -25,6 +36,7 @@ export default function Cart() {
             key={item.productId}
             productId={item.productId}
             quantity={item.quantity}
+            disableQuantityChange={false}
           />
         ))}
         <div className="mt-5">
@@ -70,7 +82,10 @@ export default function Cart() {
             Rs {cart.totalPrice.toFixed(2)}
           </p>
         </div>
-        <Button className="bg-[#C21010] text-white font-bold rounded-[25px] mb-5 w-full">
+        <Button
+          className="bg-[#C21010] text-white font-bold rounded-[25px] mb-5 w-full"
+          onClick={handleCheckout}
+        >
           Checkout
         </Button>
         <div className="flex items-center">
@@ -81,4 +96,6 @@ export default function Cart() {
       </div>
     </div>
   );
-}
+};
+
+export default Cart;

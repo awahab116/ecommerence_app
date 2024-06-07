@@ -68,7 +68,7 @@ export default function Navbar() {
       {showCart && (
         <div className="absolute top-[60px] right-[92px] w-full h-full flex justify-end z-50">
           <div className="bg-white w-[450px] h-fit overflow-y-auto shadow-lg">
-            <Cart />
+            <Cart setShowCart={setShowCart} />
           </div>
         </div>
       )}

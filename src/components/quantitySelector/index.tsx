@@ -6,26 +6,30 @@ interface QuantitySelectorProps {
   productId: number;
   initialQuantity: number;
   price: number;
+  disabled: boolean;
 }
 
 export default function QuantitySelector({
   productId,
   initialQuantity,
   price,
+  disabled,
 }: QuantitySelectorProps) {
   const [quantity, setQuantity] = useState(initialQuantity);
   const dispatch = useDispatch();
 
   const incrementQuantity = () => {
-    const newQuantity = quantity + 1;
-    setQuantity(newQuantity);
-    dispatch(
-      updateProductQuantity({ productId, price, quantity: newQuantity })
-    );
+    if (!disabled) {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      dispatch(
+        updateProductQuantity({ productId, price, quantity: newQuantity })
+      );
+    }
   };
 
   const decrementQuantity = () => {
-    if (quantity > 1) {
+    if (!disabled && quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
       dispatch(
@@ -36,11 +40,19 @@ export default function QuantitySelector({
 
   return (
     <div className="inline-flex items-center border border-gray-300 w-auto tabular-nums">
-      <button className="px-[10px]" onClick={decrementQuantity}>
+      <button
+        className="px-[10px]"
+        onClick={decrementQuantity}
+        disabled={disabled}
+      >
         -
       </button>
       <span className="px-1 py-[5px]">{quantity}</span>
-      <button className="px-[10px]" onClick={incrementQuantity}>
+      <button
+        className="px-[10px]"
+        onClick={incrementQuantity}
+        disabled={disabled}
+      >
         +
       </button>
     </div>
