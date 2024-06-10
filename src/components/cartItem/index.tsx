@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import QuantitySelector from "../quantitySelector";
-import { useGetProductByIdQuery } from "@/provider/redux/query/product";
+import { useGetProductByIdQuery } from "@/provider/redux/query";
 import { useDispatch } from "react-redux";
 import { updateProductQuantity } from "@/provider/redux/cartSlice";
 

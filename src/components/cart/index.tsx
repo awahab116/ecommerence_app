@@ -1,101 +1,57 @@
-import React, { useState } from "react";
-import CartItem from "../cartItem";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+"use client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/provider/redux/store";
+import { Button } from "../ui/button";
+import CartItem from "../cartItem";
+import OrderNote from "../orderNote";
+import CartSummary from "@/components/cartSummary";
+import { useAddCartMutation } from "@/provider/redux/mutation";
 import { useRouter } from "next/navigation";
 
-interface CartProps {
-  setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Cart: React.FC<CartProps> = ({ setShowCart }) => {
-  const [isAddingNote, setIsAddingNote] = useState(false);
+export default function Cart() {
+  const [addCart, { isError, isLoading }] = useAddCartMutation();
   const cart = useSelector((state: RootState) => state.cart);
   const router = useRouter();
 
-  const handleAddNoteClick = () => {
-    setIsAddingNote(true);
-  };
-
-  const handleCloseNoteClick = () => {
-    setIsAddingNote(false);
-  };
-
   const handleCheckout = () => {
-    setShowCart(false);
-    router.push("/checkout");
+    addCart(cart)
+      .unwrap()
+      .then((res) => {
+        console.log("Res is ", res);
+        router.push("/checkout");
+      });
   };
 
   return (
-    <div className="flex flex-col max-h-calc-height">
-      <div className="overflow-auto px-5 pt-5 flex-grow">
-        {cart.products.map((item) => (
-          <CartItem
-            key={item.productId}
-            productId={item.productId}
-            quantity={item.quantity}
-            disableQuantityChange={false}
-          />
-        ))}
-        <div className="mt-5">
-          <div className="flex items-center">
-            <p className="text-black">Add Order note </p>
-            {!isAddingNote ? (
-              <span
-                className="text-black cursor-pointer"
-                onClick={handleAddNoteClick}
-              >
-                O
-              </span>
-            ) : (
-              <span
-                className="text-black cursor-pointer"
-                onClick={handleCloseNoteClick}
-              >
-                X
-              </span>
-            )}
+    <>
+      {cart.products.length === 0 ? (
+        <div className="flex flex-col justify-center items-center pt-20 mb-10">
+          <h2 className="text-2xl">Cart</h2>
+          <p className="my-[10px]"> Your cart is currently empty.</p>
+          <Button className="bg-[#C21010] text-white font-bold rounded-[25px] mb-5">
+            Continue Shopping
+          </Button>
+        </div>
+      ) : (
+        <div className="flex justify-between items-center">
+          {cart.products.map((item) => (
+            <CartItem
+              key={item.productId}
+              productId={item.productId}
+              quantity={item.quantity}
+              disableQuantityChange={false}
+            />
+          ))}
+          <div className="flex flex-col flex-shrink flex-grow-0 basis-[35%] bg-gray-300 p-[30px] ">
+            <OrderNote />
+            <CartSummary
+              handleCheckout={handleCheckout}
+              isError={isError}
+              isLoading={isLoading}
+            />
           </div>
-          {isAddingNote && (
-            <textarea
-              className="w-full mt-2 p-2 border text-black"
-              rows={5}
-              placeholder="Add your note here..."
-            ></textarea>
-          )}
         </div>
-        <div className="flex items-center w-full mt-5">
-          <p className="text-black pr-3">E-Gift Card:</p>
-          <Input
-            className="m-w-[250px]"
-            placeholder="GK-123456789ABCD-1234"
-            maxLength={20}
-          />
-        </div>
-      </div>
-      <div className="bg-white p-5 border-t border-gray-300">
-        <div className="flex justify-between mb-5">
-          <p className="font-bold text-black">Subtotal</p>
-          <p className="font-bold text-black">
-            Rs {cart.totalPrice.toFixed(2)}
-          </p>
-        </div>
-        <Button
-          className="bg-[#C21010] text-white font-bold rounded-[25px] mb-5 w-full"
-          onClick={handleCheckout}
-        >
-          Checkout
-        </Button>
-        <div className="flex items-center">
-          <p className="text-black text-[14px] text-center">
-            Taxes included. Shipping and discount codes calculated at checkout.
-          </p>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
-};
-
-export default Cart;
+}

@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/provider/redux/store";
 import { addProduct } from "@/provider/redux/cartSlice";
-import { useGetProductByIdQuery } from "@/provider/redux/query/product";
+import { useGetProductByIdQuery } from "@/provider/redux/query";
 import ProductTabs from "@/components/productTabs";
 
 export default function Product({ productId }: { productId: number }) {

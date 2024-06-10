@@ -27,6 +27,9 @@ const config = {
       width: {
         "calc-width": "calc(100% - 80px)",
       },
+      flexBasis: {
+        "35%": "35%",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

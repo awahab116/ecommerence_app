@@ -3,7 +3,7 @@ import React from "react";
 import GridIconList from "@/components/gridIconList";
 import { ProductFilterSelect } from "@/components/productSelect";
 import ProductCard from "../productCard";
-import { useGetProductQuery } from "@/provider/redux/query/product";
+import { useGetProductQuery } from "@/provider/redux/query";
 import { ProductInfo } from "@/interfaces/product.interface";
 
 export default function Product() {

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useGetProductByLimitQuery } from "@/provider/redux/query/product";
+import { useGetProductByLimitQuery } from "@/provider/redux/query";
 import ProductCard from "@/components/productCard";
 
 export default function RecentProducts() {
