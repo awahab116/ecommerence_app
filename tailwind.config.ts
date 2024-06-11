@@ -29,6 +29,7 @@ const config = {
       },
       flexBasis: {
         "35%": "35%",
+        "45%": "45%",
       },
       colors: {
         border: "hsl(var(--border))",

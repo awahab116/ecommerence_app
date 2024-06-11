@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Cart } from "@/interfaces/cart.interface";
 
-export const fakeStoreApi = createApi({
+export const fakeStoreMutationApi = createApi({
+  reducerPath: "fakeStoreMutationApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://fakestoreapi.com",
   }),
@@ -16,4 +17,4 @@ export const fakeStoreApi = createApi({
   }),
 });
 
-export const { useAddCartMutation } = fakeStoreApi;
+export const { useAddCartMutation } = fakeStoreMutationApi;

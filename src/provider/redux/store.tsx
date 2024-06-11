@@ -1,22 +1,22 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import { productApi } from "./query";
+import { fakeStoreQueryApi } from "./query";
 import { stripeApi } from "./query/stripe";
-import { fakeStoreApi } from "./mutation";
+import { fakeStoreMutationApi } from "./mutation";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import cartSlice from "./cartSlice";
 
 export const store = configureStore({
   reducer: {
-    [productApi.reducerPath]: productApi.reducer,
+    [fakeStoreQueryApi.reducerPath]: fakeStoreQueryApi.reducer,
     [stripeApi.reducerPath]: stripeApi.reducer,
-    [fakeStoreApi.reducerPath]: fakeStoreApi.reducer,
+    [fakeStoreMutationApi.reducerPath]: fakeStoreMutationApi.reducer,
     cart: cartSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat(productApi.middleware)
+      .concat(fakeStoreQueryApi.middleware)
       .concat(stripeApi.middleware)
-      .concat(fakeStoreApi.middleware),
+      .concat(fakeStoreMutationApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

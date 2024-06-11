@@ -22,8 +22,7 @@ const CartItem: React.FC<CartItemProps> = ({
 
   const handleQuantityChange = (newQuantity: number) => {
     console.log("handleQuantityChange", newQuantity);
-    setQuantity(newQuantity); // Update local state with new quantity
-    // Dispatch action to update product quantity in the cart
+    setQuantity(newQuantity);
     dispatch(
       updateProductQuantity({
         productId,

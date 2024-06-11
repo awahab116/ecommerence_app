@@ -14,7 +14,6 @@ const CollectionLayout = ({
         <Image
           src="/home-image1.webp"
           alt="Home Image"
-          layout="responsive"
           width={1920}
           height={1080}
         />

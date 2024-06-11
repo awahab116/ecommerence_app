@@ -1,13 +1,19 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import GridIconList from "@/components/gridIconList";
 import { ProductFilterSelect } from "@/components/productSelect";
 import ProductCard from "../productCard";
+import ProductListCard from "../productListCard";
 import { useGetProductQuery } from "@/provider/redux/query";
 import { ProductInfo } from "@/interfaces/product.interface";
+import { useParams } from "next/navigation";
 
 export default function Product() {
   const { data, isLoading, isError } = useGetProductQuery();
+  const { productFilter } = useParams();
+  const [gridView, setGridView] = useState<string>("small");
+
+  console.log("productFilter", productFilter);
   console.log({ data, isLoading, isError });
 
   if (isLoading) return <div>Loading...</div>;
@@ -23,15 +29,29 @@ export default function Product() {
           <div className="pr-[15px] mr-[15px] border-r border-gray-300 hidden sm:block">
             <ProductFilterSelect />
           </div>
-          <GridIconList />
+          <GridIconList setGridView={setGridView} />
         </div>
       </div>
       <div
-        className={`grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3`}
+        className={`grid ${
+          gridView === "list"
+            ? "grid-cols-1"
+            : gridView === "small"
+            ? "grid-cols-2 md:grid-cols-2 lg:grid-cols-3"
+            : "grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+        } gap-3 mt-3`}
       >
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} height="400px" />
-        ))}
+        {products.map((product) =>
+          gridView === "list" ? (
+            <ProductListCard key={product.id} product={product} />
+          ) : (
+            <ProductCard
+              key={product.id}
+              product={product}
+              height={gridView === "small" ? "400px" : "550px"}
+            />
+          )
+        )}
       </div>
     </div>
   );

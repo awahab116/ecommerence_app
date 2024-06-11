@@ -59,6 +59,7 @@ export default function Footer() {
                 // layout="responsive"
                 width={310}
                 height={210}
+                className="w-[310px] h-[210px]"
               />
               <ListBlock title="About" listItems={aboutListItems} />
               <ListBlock title="Support" listItems={supportListItems} />
@@ -92,8 +93,8 @@ export default function Footer() {
               </div>
               <div className="relative w-[200px] h-[100px]">
                 <Image
-                  objectFit="fill"
                   fill
+                  sizes="(max-width: 200px) 100vw, 200px (max-height: 100px) 100vh, 100px"
                   src="/debit-cards.avif"
                   alt="Debit Cards"
                 />
