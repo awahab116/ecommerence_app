@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const fakeStoreQueryApi = createApi({
   reducerPath: "fakeStoreQueryApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://fakestoreapi.com" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000" }),
   endpoints: (builder) => ({
     getProduct: builder.query<ProductInfo[], void>({
       query: () => ({
@@ -23,6 +23,12 @@ export const fakeStoreQueryApi = createApi({
         method: "GET",
       }),
     }),
+    getProductByCategory: builder.query<ProductInfo[], string | string[]>({
+      query: (category) => ({
+        url: `/products/category/${category}`,
+        method: "GET",
+      }),
+    }),
     getProductCategory: builder.query<string[], void>({
       query: () => ({
         url: "/products/categories",
@@ -37,4 +43,5 @@ export const {
   useGetProductByLimitQuery,
   useGetProductByIdQuery,
   useGetProductCategoryQuery,
+  useGetProductByCategoryQuery,
 } = fakeStoreQueryApi;

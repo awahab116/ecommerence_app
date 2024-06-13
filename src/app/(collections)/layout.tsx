@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/ui/sidebar";
 import RecentProducts from "@/components/recentProducts";
 
 const CollectionLayout = ({

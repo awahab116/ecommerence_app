@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import SmallGridIcon from "@/components/svg/smallGridIcon";
-import LargeGridIcon from "@/components/svg/largeGridIcon";
-import ListGridIcon from "@/components/svg/listGridIcon";
+import SmallGridIcon from "@/components/ui/svg/smallGridIcon";
+import LargeGridIcon from "@/components/ui/svg/largeGridIcon";
+import ListGridIcon from "@/components/ui/svg/listGridIcon";
 
 interface GridIconListProps {
   setGridView: (view: string) => void;

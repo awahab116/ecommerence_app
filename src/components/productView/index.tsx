@@ -1,25 +1,63 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GridIconList from "@/components/gridIconList";
 import { ProductFilterSelect } from "@/components/productSelect";
 import ProductCard from "../productCard";
 import ProductListCard from "../productListCard";
-import { useGetProductQuery } from "@/provider/redux/query";
+import {
+  useGetProductQuery,
+  useGetProductByCategoryQuery,
+} from "@/provider/redux/query";
 import { ProductInfo } from "@/interfaces/product.interface";
 import { useParams } from "next/navigation";
 
 export default function Product() {
-  const { data, isLoading, isError } = useGetProductQuery();
   const { productFilter } = useParams();
   const [gridView, setGridView] = useState<string>("small");
+  const [fetchAllProducts, setFetchAllProducts] = useState(false);
+
+  const {
+    data: allProducts,
+    isLoading: allLoading,
+    isError: allError,
+    refetch: refetchAllProducts,
+  } = useGetProductQuery(undefined, {
+    skip: !!productFilter && !fetchAllProducts,
+  });
+
+  const {
+    data: categoryProducts,
+    isLoading: categoryLoading,
+    isError: categoryError,
+    refetch: refetchCategoryProducts,
+  } = useGetProductByCategoryQuery(productFilter!, {
+    skip: !Boolean(productFilter),
+  });
+
+  useEffect(() => {
+    if (productFilter && categoryProducts && categoryProducts.length === 0) {
+      setFetchAllProducts(true);
+    }
+  }, [categoryProducts, productFilter]);
+
+  useEffect(() => {
+    if (fetchAllProducts) {
+      refetchAllProducts();
+    }
+  }, [fetchAllProducts, refetchAllProducts]);
+
+  const isLoading = allLoading || categoryLoading;
+  const isError = allError || categoryError;
+  const products: ProductInfo[] =
+    productFilter && categoryProducts && categoryProducts.length > 0
+      ? categoryProducts
+      : allProducts || [];
 
   console.log("productFilter", productFilter);
-  console.log({ data, isLoading, isError });
+  console.log({ products, isLoading, isError });
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading products</div>;
-
-  const products: ProductInfo[] = data || [];
 
   return (
     <div>
