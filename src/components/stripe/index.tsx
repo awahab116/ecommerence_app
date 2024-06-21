@@ -1,17 +1,20 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useGetStripeQuery } from "@/provider/redux/query/stripe";
+import { useGetStripeQuery } from "@/provider/redux/query";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
 import StripeForm from "@/components/stripeForm";
 import { useSelector } from "react-redux";
+import { useParams } from "next/navigation";
 import { RootState } from "@/provider/redux/store";
 import CartItem from "@/components/cartItem";
+import { string } from "zod";
 
 export default function StripeContainer() {
+  const { id } = useParams();
   const price = useSelector((state: RootState) => state.cart.totalPrice);
   const cart = useSelector((state: RootState) => state.cart);
-  const { data: stripeData, isError, isLoading } = useGetStripeQuery(price);
+  const { data: stripeData, isError, isLoading } = useGetStripeQuery(id);
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
   const [isStripeReady, setIsStripeReady] = useState(false);
 
@@ -70,7 +73,7 @@ export default function StripeContainer() {
           <div>Stripe not loaded</div>
         )}
       </div>
-      <div className="2-1/2">
+      <div className="w-1/2">
         {cart.products.map((item) => (
           <CartItem
             key={item.productId}

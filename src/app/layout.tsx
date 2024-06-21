@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/ui/footer";
 import { Inter } from "next/font/google";
 import ReduxWrapper from "@/provider/redux/ReduxWrapper";
+import SessionWrapper from "@/provider/next-auth/SessionWrapper";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,14 +19,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ReduxWrapper>
-      <html lang="en">
-        <body className={inter.className}>
-          <Navbar />
-          {children}
-          <Footer />
-        </body>
-      </html>
-    </ReduxWrapper>
+    <SessionWrapper>
+      <ReduxWrapper>
+        <html lang="en">
+          <body className={inter.className}>
+            <Navbar />
+            {children}
+            <Footer />
+          </body>
+        </html>
+      </ReduxWrapper>
+    </SessionWrapper>
   );
 }

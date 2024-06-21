@@ -22,7 +22,7 @@ const CartMenu: React.FC<CartProps> = ({ setShowCart }) => {
       .then((res) => {
         console.log("Res is ", res);
         setShowCart(false);
-        router.push("/checkout");
+        router.push(`/checkout/${res.id}`);
       });
   };
 

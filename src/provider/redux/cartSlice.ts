@@ -3,6 +3,7 @@ import { Cart } from "@/interfaces/cart.interface";
 
 const initialState: Cart = {
   date: new Date().toISOString(),
+  userId: 1,
   products: [],
   totalPrice: 0,
 };

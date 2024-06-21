@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useSession, signIn } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,23 +16,43 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  email: z.string().email(),
+  username: z.string(),
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
 export function LoginForm() {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  console.log("user session is ", session);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+
+    try {
+      const res = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
+      });
+
+      if (res?.ok) {
+        router.push("/");
+      }
+    } catch (err) {
+      console.log("Error login ", err);
+    }
   }
 
   return (
@@ -44,15 +65,15 @@ export function LoginForm() {
           <h1 className="text-4xl font-bold mb-6 ">Login</h1>
           <FormField
             control={form.control}
-            name="email"
+            name="username"
             render={({ field }) => (
               <FormItem className="max-w-[400px] w-full mb-[30px]">
                 <FormLabel className="text-[16px] font-bold mb-[10px] w-full">
-                  Email
+                  Username
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="email@example.com"
+                    placeholder="user1122"
                     {...field}
                     className="max-w-[400px] font-light py-2 px-[10px]  w-full"
                   />

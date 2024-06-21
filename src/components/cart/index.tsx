@@ -18,7 +18,7 @@ export default function Cart() {
       .unwrap()
       .then((res) => {
         console.log("Res is ", res);
-        router.push("/checkout");
+        router.push(`/checkout/${res.id}`);
       });
   };
 
