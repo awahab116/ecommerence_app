@@ -1,84 +1,98 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  DropdownMenu as ShadCNDropdownMenu,
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ProductInfo } from "@/interfaces/product.interface";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import Image from "next/image";
+import { ResponsiveDialog } from "@/components/responsiveDialog";
+import ProductEditForm from "../productEditForm";
+import ProductDeleteForm from "@/components/productDeleteForm";
+import { SquarePen, Trash2 } from "lucide-react";
 
-export default function DropdownMenu({ product }: { product: ProductInfo }) {
+export default function ProductDropdownMenu({
+  product,
+  refetchProducts,
+}: {
+  product: ProductInfo;
+  refetchProducts: () => void;
+}) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: product.title,
-    category: product.category,
-    price: product.price,
-  });
-  const router = useRouter();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value,
-    });
-  };
-
-  const handleSaveChanges = () => {
-    // Implement save functionality here
-    console.log("Saved data:", formData);
-    setIsEditOpen(false);
-  };
-
-  const [inputValue, setInputValue] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  useEffect(() => {
+    if (product.id && !isEditOpen && !isDeleteOpen) {
+      console.log("Product id is ", product.id);
+      refetchProducts();
+    }
+  }, [isEditOpen, isDeleteOpen]);
 
   return (
-    <div className="relative">
-      <ShadCNDropdownMenu>
-        <DropdownMenuTrigger> Dropdown Menu </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <DropdownMenuItem
-                onSelect={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                Test
-              </DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent>
-              <Input
-                value={inputValue}
-                onChange={(e) => {
-                  setInputValue(e.target.value);
-                  console.log("input changed", e.target.value);
-                }}
-              />
-              This is a modal.
-            </DialogContent>
-          </Dialog>
+    <>
+      <ResponsiveDialog
+        isOpen={isEditOpen}
+        setIsOpen={setIsEditOpen}
+        title="Edit Person"
+      >
+        <ProductEditForm product={product} setIsOpen={setIsEditOpen} />
+      </ResponsiveDialog>
+      <ResponsiveDialog
+        isOpen={isDeleteOpen}
+        setIsOpen={setIsDeleteOpen}
+        title="Delete Product"
+        description="Are you sure you want to delete this product?"
+      >
+        <ProductDeleteForm productId={product.id} setIsOpen={setIsDeleteOpen} />
+      </ResponsiveDialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <Image
+              src="three-dot-menu.svg"
+              alt="Three dot menu"
+              width={20}
+              height={20}
+            />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-[160px] z-50">
+          <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base text-neutral-500 ">
+            <button
+              onClick={() => {
+                setIsEditOpen(true);
+              }}
+              className="w-full justify-start flex rounded-md p-2 transition-all duration-75 hover:bg-neutral-100"
+            >
+              <div className="flex items-center">
+                <SquarePen className="h-4 w-4 mr-2" />
+                <span>Edit</span>
+              </div>
+            </button>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base text-neutral-500 ">
+            <button
+              onClick={() => {
+                setIsDeleteOpen(true);
+              }}
+              className="w-full justify-start flex text-red-500 rounded-md p-2 transition-all duration-75 hover:bg-neutral-100"
+            >
+              <div className="flex items-center">
+                <Trash2 className="h-4 w-4 mr-2 " />
+                <span>Delete</span>
+              </div>
+            </button>
+          </DropdownMenuItem>
         </DropdownMenuContent>
-      </ShadCNDropdownMenu>
-    </div>
+      </DropdownMenu>
+    </>
   );
 }
 

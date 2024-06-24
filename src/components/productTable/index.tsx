@@ -12,10 +12,10 @@ import {
   TableFooter,
 } from "../ui/table";
 import Image from "next/image";
-import DropdownMenu from "@/components/dropDownMenu";
+import ProductDropdownMenu from "@/components/dropDownMenu";
 
 export default function ProductTable() {
-  const { data, error, isLoading } = useGetProductQuery();
+  const { data, error, isLoading, refetch } = useGetProductQuery();
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error in getting products</p>;
@@ -51,7 +51,10 @@ export default function ProductTable() {
               <TableCell>{product.category}</TableCell>
               <TableCell>${product.price}</TableCell>
               <TableCell>
-                <DropdownMenu product={product} />
+                <ProductDropdownMenu
+                  product={product}
+                  refetchProducts={refetch}
+                />
               </TableCell>
             </TableRow>
           ))}

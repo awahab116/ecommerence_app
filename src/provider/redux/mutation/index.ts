@@ -22,7 +22,15 @@ export const fakeStoreMutationApi = createApi({
         body: cart,
       }),
     }),
+    editProduct: build.mutation({
+      query: ({ id, ...product }) => ({
+        url: `/products/${id}`,
+        method: "PATCH",
+        body: product,
+      }),
+    }),
   }),
 });
 
-export const { useAddCartMutation } = fakeStoreMutationApi;
+export const { useAddCartMutation, useEditProductMutation } =
+  fakeStoreMutationApi;

@@ -63,6 +63,12 @@ export const fakeStoreQueryApi = createApi({
         method: "GET",
       }),
     }),
+    deleteProduct: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -74,4 +80,5 @@ export const {
   useGetProductByCategoryQuery,
   useGetStripeQuery,
   useGetOrdersQuery,
+  useDeleteProductMutation,
 } = fakeStoreQueryApi;
