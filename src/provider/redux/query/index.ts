@@ -1,4 +1,5 @@
 import { ProductInfo } from "@/interfaces/product.interface";
+import { Order } from "@/interfaces/order.interface";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getSession } from "next-auth/react";
 
@@ -56,6 +57,12 @@ export const fakeStoreQueryApi = createApi({
         params: { id },
       }),
     }),
+    getOrders: builder.query<Order[], void>({
+      query: () => ({
+        url: "/orders",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -66,4 +73,5 @@ export const {
   useGetProductCategoryQuery,
   useGetProductByCategoryQuery,
   useGetStripeQuery,
+  useGetOrdersQuery,
 } = fakeStoreQueryApi;

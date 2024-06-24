@@ -38,7 +38,7 @@ export default function ProductCard({
                 : height == "250px"
                 ? "h-[250px]"
                 : "h-[600px]"
-            } w-full object-contain`}
+            } w-full object-fill`}
           />
         </CardHeader>
         <CardContent className="bg-gray-50 p-4 h-full">
