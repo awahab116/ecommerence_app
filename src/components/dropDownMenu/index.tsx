@@ -25,13 +25,6 @@ export default function ProductDropdownMenu({
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  useEffect(() => {
-    if (product.id && !isEditOpen && !isDeleteOpen) {
-      console.log("Product id is ", product.id);
-      refetchProducts();
-    }
-  }, [isEditOpen, isDeleteOpen]);
-
   return (
     <>
       <ResponsiveDialog
@@ -39,7 +32,11 @@ export default function ProductDropdownMenu({
         setIsOpen={setIsEditOpen}
         title="Edit Person"
       >
-        <ProductEditForm product={product} setIsOpen={setIsEditOpen} />
+        <ProductEditForm
+          product={product}
+          setIsOpen={setIsEditOpen}
+          refetchProducts={refetchProducts}
+        />
       </ResponsiveDialog>
       <ResponsiveDialog
         isOpen={isDeleteOpen}
@@ -47,7 +44,11 @@ export default function ProductDropdownMenu({
         title="Delete Product"
         description="Are you sure you want to delete this product?"
       >
-        <ProductDeleteForm productId={product.id} setIsOpen={setIsDeleteOpen} />
+        <ProductDeleteForm
+          productId={product.id}
+          setIsOpen={setIsDeleteOpen}
+          refetchProducts={refetchProducts}
+        />
       </ResponsiveDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -94,31 +95,4 @@ export default function ProductDropdownMenu({
       </DropdownMenu>
     </>
   );
-}
-
-{
-  /* <DropdownMenu modal={false}>
-  <DropdownMenuTrigger asChild>
-    <Button variant="ghost" className="h-8 w-8 p-0">
-      <MoreHorizontal className="h-4 w-4" />
-    </Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent align="end">
-    <DropdownMenuItem
-      onSelect={() => router.push(`tickets/edit`)}
-    >
-      Edit
-    </DropdownMenuItem>
-    <Dialog>
-      <DialogTrigger asChild>
-        <DropdownMenuItem>
-          Children Button
-        </DropdownMenuItem>
-      </DialogTrigger>
-      <DialogContent>
-        This is a modal.
-      </DialogContent>
-    </Dialog>
-  </DropdownMenuContent>
-</DropdownMenu> */
 }

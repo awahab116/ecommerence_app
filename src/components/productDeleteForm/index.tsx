@@ -17,9 +17,11 @@ const formSchema = z.object({
 export default function ProductDeleteForm({
   productId,
   setIsOpen,
+  refetchProducts,
 }: {
   productId: number;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  refetchProducts: () => void;
 }) {
   const [
     deleteProductMutation,
@@ -38,6 +40,7 @@ export default function ProductDeleteForm({
         .unwrap()
         .then((res) => {
           console.log("Res is ", res);
+          refetchProducts();
           setIsOpen(false);
         })
         .catch((err) => {

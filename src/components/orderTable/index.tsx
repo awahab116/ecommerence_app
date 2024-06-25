@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useGetOrdersQuery } from "@/provider/redux/query";
 import {
   Table,
@@ -11,9 +11,17 @@ import {
   TableCell,
   TableFooter,
 } from "../ui/table";
+import Paginator from "@/components/paginator";
 
 export default function OrderTable() {
-  const { data, error, isLoading } = useGetOrdersQuery();
+  const [page, setPage] = useState(1);
+  const [limit] = useState(5);
+  const { data, error, isLoading } = useGetOrdersQuery({
+    page,
+    limit,
+  });
+
+  const totalPages = data ? Math.ceil(data.totalOrders / limit) : 1;
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error in getting orders</p>;
@@ -31,8 +39,8 @@ export default function OrderTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data &&
-          data.map((order) => (
+        {data?.order &&
+          data.order.map((order) => (
             <TableRow key={order.id}>
               <TableCell className="font-medium">{order.id}</TableCell>
               <TableCell>{order.userDetails?.username} </TableCell>
@@ -41,8 +49,16 @@ export default function OrderTable() {
               <TableCell className="text-right">${order.totalPrice}</TableCell>
             </TableRow>
           ))}
+        <TableRow className="bg-transparent hover:bg-transparent w-full ">
+          <TableCell colSpan={5} className="text-right">
+            <Paginator
+              currentPage={page}
+              totalPages={totalPages}
+              setPage={setPage}
+            />
+          </TableCell>
+        </TableRow>
       </TableBody>
-      <TableFooter>{/* <p>Paginataion</p> */}</TableFooter>
     </Table>
   );
 }

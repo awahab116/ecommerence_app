@@ -29,9 +29,11 @@ const formSchema = z.object({
 export default function ProductEditForm({
   product,
   setIsOpen,
+  refetchProducts,
 }: {
   product: ProductInfo;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  refetchProducts: () => void;
 }) {
   const [
     updateProductMutation,
@@ -54,6 +56,7 @@ export default function ProductEditForm({
       .unwrap()
       .then((res) => {
         console.log("Res is ", res);
+        refetchProducts();
         setIsOpen(false);
       })
       .catch((err) => {

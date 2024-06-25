@@ -20,9 +20,12 @@ export const fakeStoreQueryApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getProduct: builder.query<ProductInfo[], void>({
-      query: () => ({
-        url: "/products",
+    getProduct: builder.query<
+      { products: ProductInfo[]; totalProducts: number },
+      { page: number; limit: number }
+    >({
+      query: ({ page, limit }) => ({
+        url: `/products?page=${page}&limit=${limit}`,
         method: "GET",
       }),
     }),
@@ -38,9 +41,16 @@ export const fakeStoreQueryApi = createApi({
         method: "GET",
       }),
     }),
-    getProductByCategory: builder.query<ProductInfo[], string | string[]>({
-      query: (category) => ({
-        url: `/products/category/${category}`,
+    getProductByCategory: builder.query<
+      { products: ProductInfo[]; totalProducts: number },
+      {
+        category: string | string[];
+        page: number;
+        limit: number;
+      }
+    >({
+      query: ({ category, page, limit }) => ({
+        url: `/products/category/?category=${category}&page=${page}&limit=${limit}`,
         method: "GET",
       }),
     }),
@@ -57,9 +67,12 @@ export const fakeStoreQueryApi = createApi({
         params: { id },
       }),
     }),
-    getOrders: builder.query<Order[], void>({
+    getOrders: builder.query<
+      { order: Order[]; totalOrders: number },
+      { page: number; limit: number }
+    >({
       query: () => ({
-        url: "/orders",
+        url: "/orders?page=${page}&limit=${limit}",
         method: "GET",
       }),
     }),

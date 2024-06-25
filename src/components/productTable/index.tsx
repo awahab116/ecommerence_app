@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useGetProductQuery } from "@/provider/redux/query";
 import {
   Table,
@@ -13,9 +13,17 @@ import {
 } from "../ui/table";
 import Image from "next/image";
 import ProductDropdownMenu from "@/components/dropDownMenu";
+import Paginator from "@/components/paginator";
 
 export default function ProductTable() {
-  const { data, error, isLoading, refetch } = useGetProductQuery();
+  const [page, setPage] = useState(1);
+  const [limit] = useState(4);
+  const { data, error, isLoading, refetch } = useGetProductQuery({
+    page,
+    limit,
+  });
+
+  const totalPages = data ? Math.ceil(data.totalProducts / limit) : 1;
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error in getting products</p>;
@@ -33,8 +41,8 @@ export default function ProductTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data &&
-          data.map((product) => (
+        {data?.products &&
+          data.products.map((product) => (
             <TableRow key={product.id}>
               <TableCell className="font-medium">{product.id}</TableCell>
               <TableCell>
@@ -58,8 +66,16 @@ export default function ProductTable() {
               </TableCell>
             </TableRow>
           ))}
+        <TableRow className="bg-transparent hover:bg-transparent w-full ">
+          <TableCell colSpan={5} className="text-right">
+            <Paginator
+              currentPage={page}
+              totalPages={totalPages}
+              setPage={setPage}
+            />
+          </TableCell>
+        </TableRow>
       </TableBody>
-      <TableFooter>{/* <p>Pagination</p> */}</TableFooter>
     </Table>
   );
 }

@@ -4,6 +4,7 @@ import GridIconList from "@/components/gridIconList";
 import { ProductFilterSelect } from "@/components/productSelect";
 import ProductCard from "../productCard";
 import ProductListCard from "../productListCard";
+import Paginator from "@/components/paginator";
 import {
   useGetProductQuery,
   useGetProductByCategoryQuery,
@@ -15,54 +16,73 @@ export default function Product() {
   const { productFilter } = useParams();
   const [gridView, setGridView] = useState<string>("small");
   const [fetchAllProducts, setFetchAllProducts] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(3);
+  const [NoOfProducts, setNoOfProducts] = useState(0);
 
   const {
-    data: allProducts,
-    isLoading: allLoading,
-    isError: allError,
-    refetch: refetchAllProducts,
-  } = useGetProductQuery(undefined, {
-    skip: !!productFilter && !fetchAllProducts,
-  });
-
-  const {
-    data: categoryProducts,
+    data: categoryProductsData,
     isLoading: categoryLoading,
     isError: categoryError,
-    refetch: refetchCategoryProducts,
-  } = useGetProductByCategoryQuery(productFilter!, {
-    skip: !Boolean(productFilter),
-  });
-
-  useEffect(() => {
-    if (productFilter && categoryProducts && categoryProducts.length === 0) {
-      setFetchAllProducts(true);
+  } = useGetProductByCategoryQuery(
+    {
+      category: productFilter || "",
+      page,
+      limit,
+    },
+    {
+      skip: !Boolean(productFilter),
     }
-  }, [categoryProducts, productFilter]);
+  );
 
-  useEffect(() => {
-    if (fetchAllProducts) {
-      refetchAllProducts();
+  const categoryProducts = categoryProductsData?.products || [];
+  const noCategoryProducts =
+    !productFilter || (productFilter && categoryProducts.length === 0);
+
+  const {
+    data: allProductsData,
+    isLoading: allLoading,
+    isError: allError,
+  } = useGetProductQuery(
+    {
+      page,
+      limit,
+    },
+    {
+      skip: !!productFilter && !fetchAllProducts && !noCategoryProducts,
     }
-  }, [fetchAllProducts, refetchAllProducts]);
+  );
+
+  const allProducts = allProductsData?.products || [];
 
   const isLoading = allLoading || categoryLoading;
   const isError = allError || categoryError;
   const products: ProductInfo[] =
-    productFilter && categoryProducts && categoryProducts.length > 0
+    productFilter && categoryProducts.length > 0
       ? categoryProducts
-      : allProducts || [];
+      : allProducts;
 
-  console.log("productFilter", productFilter);
-  console.log({ products, isLoading, isError });
+  useEffect(() => {
+    if (productFilter && categoryProductsData?.totalProducts) {
+      setNoOfProducts(categoryProductsData?.totalProducts);
+    } else {
+      setNoOfProducts(allProductsData?.totalProducts || 0);
+    }
+  }),
+    [productFilter, categoryProductsData, allProductsData];
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading products</div>;
 
+  const newPage = (page: number) => {
+    console.log(`Fetching products for page ${page}`);
+    setPage(page);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center">
-        <span>Number of Products: {products.length}</span>
+        <span>Number of Products: {NoOfProducts}</span>
         <div className="flex">
           <div className="pr-[15px] mr-[15px] border-r border-gray-300 hidden sm:block">
             <ProductFilterSelect />
@@ -90,6 +110,13 @@ export default function Product() {
             />
           )
         )}
+      </div>
+      <div className="py-4">
+        <Paginator
+          totalPages={Math.ceil(NoOfProducts / limit)}
+          currentPage={page}
+          setPage={newPage}
+        />
       </div>
     </div>
   );
