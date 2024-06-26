@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Cart } from "@/interfaces/cart.interface";
 import { getSession } from "next-auth/react";
+import { addProduct } from "../cartSlice";
 
 export const fakeStoreMutationApi = createApi({
   reducerPath: "fakeStoreMutationApi",
@@ -22,6 +23,13 @@ export const fakeStoreMutationApi = createApi({
         body: cart,
       }),
     }),
+    addProduct: build.mutation({
+      query: (product) => ({
+        url: "/products",
+        method: "POST",
+        body: product,
+      }),
+    }),
     editProduct: build.mutation({
       query: ({ id, ...product }) => ({
         url: `/products/${id}`,
@@ -32,5 +40,8 @@ export const fakeStoreMutationApi = createApi({
   }),
 });
 
-export const { useAddCartMutation, useEditProductMutation } =
-  fakeStoreMutationApi;
+export const {
+  useAddCartMutation,
+  useEditProductMutation,
+  useAddProductMutation,
+} = fakeStoreMutationApi;

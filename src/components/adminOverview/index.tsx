@@ -1,18 +1,48 @@
+"use client";
 import React from "react";
 import StatCard from "../statCard";
+import { useAdminStatsQuery } from "@/provider/redux/query";
+import {
+  BadgeDollarSign,
+  UsersRound,
+  ReceiptText,
+  ShoppingCart,
+} from "lucide-react";
 
 export default function AdminOverview() {
+  const { data, isLoading, isError } = useAdminStatsQuery();
+
+  console.log("stats ", data);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
+
   return (
     <div className="flex flex-row gap-2">
       <StatCard
-        name="STATS"
-        statLogo="product.svg"
-        price="$ 1,000"
+        name="Revenue"
+        statLogo={<BadgeDollarSign />}
+        price={"$" + (data?.totalRevenue?.toString() || "0")}
         value="+30$"
       />
-      <StatCard name="Orders" statLogo="product.svg" price="234" value="+42" />
-      <StatCard name="Products" statLogo="product.svg" price="57" value="+5" />
-      <StatCard name="Users" statLogo="product.svg" price="3" value="+1" />
+      <StatCard
+        name="Orders"
+        statLogo={<ShoppingCart />}
+        price={data?.totalOrders?.toString() || "0"}
+        value="+42"
+      />
+      <StatCard
+        name="Products"
+        statLogo={<ReceiptText />}
+        price={data?.totalProducts?.toString() || "0"}
+        value="+5"
+      />
+      <StatCard
+        name="Users"
+        statLogo={<UsersRound />}
+        price={data?.totalUsers?.toString() || "0"}
+        value="+1"
+      />
     </div>
   );
 }

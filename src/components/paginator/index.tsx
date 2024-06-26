@@ -1,3 +1,5 @@
+"use client";
+import React, { useEffect } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -19,6 +21,10 @@ const Paginator: React.FC<PaginatorProps> = ({
   totalPages,
   setPage,
 }) => {
+  useEffect(() => {
+    console.log("total number pages changed");
+  }, [totalPages]);
+
   const handlePrevious = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {

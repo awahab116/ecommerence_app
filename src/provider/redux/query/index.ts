@@ -82,6 +82,33 @@ export const fakeStoreQueryApi = createApi({
         method: "DELETE",
       }),
     }),
+    adminStats: builder.query<
+      {
+        totalProducts: number;
+        totalOrders: number;
+        totalUsers: number;
+        totalRevenue: number;
+      },
+      void
+    >({
+      query: () => ({
+        url: "/stats",
+        method: "GET",
+      }),
+    }),
+    searchProduct: builder.query<
+      { products: ProductInfo[]; totalProducts: number },
+      {
+        search: string;
+        page: number;
+        limit: number;
+      }
+    >({
+      query: ({ search, page, limit }) => ({
+        url: `/products/search?search=${search}&page=${page}&limit=${limit}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -94,4 +121,6 @@ export const {
   useGetStripeQuery,
   useGetOrdersQuery,
   useDeleteProductMutation,
+  useAdminStatsQuery,
+  useSearchProductQuery,
 } = fakeStoreQueryApi;

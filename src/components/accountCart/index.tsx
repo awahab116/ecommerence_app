@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import CartMenu from "@/components/cartMenu";
 import { useSelector } from "react-redux";
 import { RootState } from "@/provider/redux/store";
@@ -13,8 +13,7 @@ const AccountAndCart: React.FC = () => {
   const [showCart, setShowCart] = useState(false);
   const cart = useSelector((state: RootState) => state.cart);
   const router = useRouter();
-
-  // console.log("session", session);
+  const pathname = usePathname();
 
   const toggleCart = () => {
     if (cart.products.length === 0) {
@@ -42,20 +41,29 @@ const AccountAndCart: React.FC = () => {
             className="flex align-end px-3 py-4 cursor-pointer"
           >
             <Image src="/cart.svg" width={27} height={27} alt="Cart Icon" />
-            <span className="ml-[15px]">Cart {cart.products.length}</span>
+            <span className="ml-[15px]">Cart</span>
+            {cart.products.length && (
+              <div className="relative">
+                <p className="absolute top-0 right-3 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                  {cart.products.length}
+                </p>
+              </div>
+            )}
           </div>
-          {session?.user ? (
-            <div
-              onClick={() => signOut({ callbackUrl: "/login" })}
-              className="flex align-end px-3 py-4 cursor-pointer"
-            >
-              <span className="ml-[15px]">Sign Out</span>
-            </div>
-          ) : (
-            <Link href="/login" className="flex align-end px-3 py-4">
-              <span className="ml-[15px]">Sign In</span>
-            </Link>
-          )}
+
+          {pathname !== "/login" &&
+            (session?.user ? (
+              <div
+                onClick={() => signOut({ callbackUrl: "/login" })}
+                className="flex align-end px-3 py-4 cursor-pointer"
+              >
+                <span className="ml-[15px]">Sign Out</span>
+              </div>
+            ) : (
+              <Link href="/login" className="flex align-end px-3 py-4">
+                <span className="ml-[15px]">Sign In</span>
+              </Link>
+            ))}
         </>
       ) : (
         <div
