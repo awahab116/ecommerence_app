@@ -42,13 +42,13 @@ const AccountAndCart: React.FC = () => {
           >
             <Image src="/cart.svg" width={27} height={27} alt="Cart Icon" />
             <span className="ml-[15px]">Cart</span>
-            {cart.products.length && (
+            {/* {cart.products.length && (
               <div className="relative">
                 <p className="absolute top-0 right-3 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                   {cart.products.length}
                 </p>
               </div>
-            )}
+            )} */}
           </div>
 
           {pathname !== "/login" &&

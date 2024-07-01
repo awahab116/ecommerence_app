@@ -3,6 +3,7 @@ import SearchBar from "@/components/ui/searchBar";
 import Image from "next/image";
 import Link from "next/link";
 import AccountAndCart from "@/components/accountCart";
+import MenuItems from "@/components/menuItems";
 
 export default function Navbar() {
   return (
@@ -24,15 +25,7 @@ export default function Navbar() {
 
       <div className="border-b-[0.5px] border-gray"></div>
 
-      <ul className="flex flex-wrap justify-center items-center px-10 py-0">
-        <li className="px-5 py-4">SHOPS</li>
-        <li className="px-5 py-4">WEEKLY DEALS</li>
-        <li className="px-5 py-4">LESS THAN 1500</li>
-        <li className="px-5 py-4">BUNDLES</li>
-        <li className="px-5 py-4">ATTARS</li>
-        <li className="px-5 py-4">BLOGS</li>
-        <li className="px-5 py-4">CONTACT US</li>
-      </ul>
+      <MenuItems />
     </div>
   );
 }

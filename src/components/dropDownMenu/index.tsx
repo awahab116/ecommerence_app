@@ -31,6 +31,7 @@ export default function ProductDropdownMenu({
         isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}
         title="Edit Person"
+        isHeightFull={false}
       >
         <ProductEditForm
           product={product}
@@ -41,6 +42,7 @@ export default function ProductDropdownMenu({
       <ResponsiveDialog
         isOpen={isDeleteOpen}
         setIsOpen={setIsDeleteOpen}
+        isHeightFull={false}
         title="Delete Product"
         description="Are you sure you want to delete this product?"
       >

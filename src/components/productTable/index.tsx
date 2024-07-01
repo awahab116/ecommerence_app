@@ -83,6 +83,7 @@ export default function ProductTable() {
       <ResponsiveDialog
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        isHeightFull={false}
         title="Add Product"
       >
         <AddProductForm setIsOpen={setIsOpen} refetchProducts={refetch} />

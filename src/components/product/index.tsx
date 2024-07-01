@@ -22,6 +22,8 @@ export default function Product({ productId }: { productId: number }) {
   const dispatch: AppDispatch = useDispatch();
   const { data: product, error, isLoading } = useGetProductByIdQuery(productId);
 
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading product data.</p>;
 
@@ -37,13 +39,24 @@ export default function Product({ productId }: { productId: number }) {
     setQuantity(newQuantity);
   };
 
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image);
+  };
+
   return (
     <div className="grid grid-cols-2 gap-5 px-10">
       {product && (
         <>
           <div className="flex gap-3 mt-[10px] w-calc-width">
             <div>
-              <div className="relative h-[120px] w-[80px] overflow-hidden border border-gray-300 mb-[15px] ">
+              <div
+                className={`relative h-[120px] w-[80px] overflow-hidden border ${
+                  selectedImage === product.image
+                    ? "border-gray-500"
+                    : "border-gray-300"
+                } mb-[15px] cursor-pointer`}
+                onClick={() => handleImageClick(product.image)}
+              >
                 <Image
                   src={product.image}
                   alt={product.description}
@@ -51,9 +64,16 @@ export default function Product({ productId }: { productId: number }) {
                   layout="fill"
                 />
               </div>
-              <div className="relative h-[120px] w-[80px] overflow-hidden border border-gray-300 mb-[15px]">
+              <div
+                className={`relative h-[120px] w-[80px] overflow-hidden border-[2px] ${
+                  selectedImage === "/card-image.webp"
+                    ? "border-black"
+                    : "border-transparent"
+                } mb-[15px] cursor-pointer`}
+                onClick={() => handleImageClick("/card-image.webp")}
+              >
                 <Image
-                  src={product.image}
+                  src="/card-image.webp"
                   alt={product.description}
                   objectFit="fill"
                   layout="fill"
@@ -61,7 +81,7 @@ export default function Product({ productId }: { productId: number }) {
               </div>
             </div>
             <Image
-              src={product.image}
+              src={selectedImage || product.image}
               alt={product.description}
               width={800}
               height={1200}

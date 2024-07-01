@@ -39,13 +39,11 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // console.log("Credentials are ", credentials);
-
         if (!credentials) {
           return null;
         }
 
-        const customLogin = useCustomLogin(); // Custom login hook
+        const customLogin = useCustomLogin();
         const userResponse = await customLogin(credentials);
 
         if (userResponse) {
@@ -54,7 +52,7 @@ export const authOptions: NextAuthOptions = {
             id: userData.userId,
             name: `${userData.name.firstname} ${userData.name.lastname}`,
             username: userData.username,
-            accessToken: token, // Store the token in a non-standard property if needed
+            accessToken: token,
             isAdmin: userData.isAdmin,
           };
 
@@ -68,23 +66,21 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // console.log("JWT token and user is ", user, token);
       if (user) {
         token.id = user.id;
         token.username = user.username;
         token.name = user.name;
-        token.accessToken = user.accessToken; // Store the token in the JWT
+        token.accessToken = user.accessToken;
         token.isAdmin = user.isAdmin;
       }
       return token;
     },
     async session({ session, token }) {
-      // console.log("Session user is ", session, token);
       if (token) {
         session.user.id = token.id as number;
         session.user.username = token.username as string;
         session.user.name = token.name as string;
-        session.accessToken = token.accessToken as string; // Store the token in the session
+        session.accessToken = token.accessToken as string;
         session.isAdmin = token.isAdmin as boolean;
       }
       return session;

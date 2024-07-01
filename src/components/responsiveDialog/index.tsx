@@ -27,19 +27,27 @@ export function ResponsiveDialog({
   setIsOpen,
   title,
   description,
+  isHeightFull,
 }: {
   children: React.ReactNode;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   description?: string;
+  isHeightFull?: boolean;
 }) {
   //   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   //   if (isDesktop) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent
+        className={
+          isHeightFull
+            ? "sm:max-w-[1000px] overflow-y-scroll h-full"
+            : "sm:max-w-[425px]"
+        }
+      >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
