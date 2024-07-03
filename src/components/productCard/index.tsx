@@ -100,14 +100,14 @@ export default function ProductCard({
               {product.description}
             </CardDescription>
             <CardDescription className="flex gap-3">
-              <p className="text-[18px] font-semibold text-[#C21010]">
+              <span className="text-[18px] font-semibold text-[#C21010]">
                 {" "}
                 Rs {product.price}
-              </p>
-              <p className="text-[12px] font-semibold text-[#C21010] line-through">
+              </span>
+              <span className="text-[12px] font-semibold text-[#C21010] line-through">
                 {" "}
                 Rs {product.price}
-              </p>
+              </span>
             </CardDescription>
           </CardContent>
         </Card>
