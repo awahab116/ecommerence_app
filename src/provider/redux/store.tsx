@@ -4,12 +4,14 @@ import { fakeStoreMutationApi } from "./mutation";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import cartSlice from "./cartSlice";
 
+export const rootReducer = {
+  [fakeStoreQueryApi.reducerPath]: fakeStoreQueryApi.reducer,
+  [fakeStoreMutationApi.reducerPath]: fakeStoreMutationApi.reducer,
+  cart: cartSlice,
+};
+
 export const store = configureStore({
-  reducer: {
-    [fakeStoreQueryApi.reducerPath]: fakeStoreQueryApi.reducer,
-    [fakeStoreMutationApi.reducerPath]: fakeStoreMutationApi.reducer,
-    cart: cartSlice,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(fakeStoreQueryApi.middleware)

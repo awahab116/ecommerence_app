@@ -16,7 +16,7 @@ export const fakeStoreMutationApi = createApi({
     },
   }),
   endpoints: (build) => ({
-    addCart: build.mutation({
+    addOrder: build.mutation({
       query: (cart: Cart) => ({
         url: `/orders`,
         method: "POST",
@@ -41,7 +41,7 @@ export const fakeStoreMutationApi = createApi({
 });
 
 export const {
-  useAddCartMutation,
+  useAddOrderMutation,
   useEditProductMutation,
   useAddProductMutation,
 } = fakeStoreMutationApi;

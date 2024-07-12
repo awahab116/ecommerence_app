@@ -31,16 +31,20 @@ const ReviewSection = () => {
         <Button className="bg-black text-white px-16">Write a Review</Button>
       </div>
       <div className="flex justify-between pt-12">
-        <p>Showing 5 reviews</p>
+        <p>Showing 4 reviews</p>
         <div className="flex gap-3">
           <Button className="bg-gray-300 text-black">Filters</Button>
           <Button className="bg-gray-300 text-black">Sort</Button>
         </div>
       </div>
-      <UserReview />
-      <UserReview />
-      <UserReview />
-      <UserReview />
+      {
+        // show userSection 4 times
+        Array(4)
+          .fill("")
+          .map((_, index) => (
+            <UserReview key={index} />
+          ))
+      }
     </div>
   );
 };

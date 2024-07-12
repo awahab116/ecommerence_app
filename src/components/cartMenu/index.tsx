@@ -5,7 +5,7 @@ import { RootState } from "@/provider/redux/store";
 import OrderNote from "@/components/orderNote";
 import CartSummary from "@/components/cartSummary";
 import { useRouter } from "next/navigation";
-import { useAddCartMutation } from "@/provider/redux/mutation";
+import { useAddOrderMutation } from "@/provider/redux/mutation";
 
 interface CartProps {
   setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,7 +14,8 @@ interface CartProps {
 const CartMenu: React.FC<CartProps> = ({ setShowCart }) => {
   const cart = useSelector((state: RootState) => state.cart);
   const router = useRouter();
-  const [addCart, { isError, isLoading }] = useAddCartMutation();
+  const [addCart, { isError, isLoading }] = useAddOrderMutation();
+  console.log("Cart is ", cart);
 
   const handleCheckout = () => {
     addCart(cart)

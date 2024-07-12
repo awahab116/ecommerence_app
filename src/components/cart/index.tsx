@@ -5,13 +5,15 @@ import { Button } from "../ui/button";
 import CartItem from "../cartItem";
 import OrderNote from "../orderNote";
 import CartSummary from "@/components/cartSummary";
-import { useAddCartMutation } from "@/provider/redux/mutation";
+import { useAddOrderMutation } from "@/provider/redux/mutation";
 import { useRouter } from "next/navigation";
 
 export default function Cart() {
-  const [addCart, { isError, isLoading }] = useAddCartMutation();
+  const [addCart, { isError, isLoading }] = useAddOrderMutation();
   const cart = useSelector((state: RootState) => state.cart);
   const router = useRouter();
+
+  console.log("Cart is ", cart);
 
   const handleCheckout = () => {
     addCart(cart)
@@ -33,15 +35,17 @@ export default function Cart() {
           </Button>
         </div>
       ) : (
-        <div className="flex justify-between items-center">
-          {cart.products.map((item) => (
-            <CartItem
-              key={item.productId}
-              productId={item.productId}
-              quantity={item.quantity}
-              disableQuantityChange={false}
-            />
-          ))}
+        <div className="flex justify-between items-center gap-2 w-full">
+          <div className="w-[40%]">
+            {cart.products.map((item) => (
+              <CartItem
+                key={item.productId}
+                productId={item.productId}
+                quantity={item.quantity}
+                disableQuantityChange={false}
+              />
+            ))}
+          </div>
           <div className="flex flex-col flex-shrink flex-grow-0 basis-[35%] bg-gray-300 p-[30px] ">
             <OrderNote />
             <CartSummary

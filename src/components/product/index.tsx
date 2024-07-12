@@ -43,6 +43,8 @@ export default function Product({ productId }: { productId: number }) {
     setSelectedImage(image);
   };
 
+  console.log("product , error, isLoading", product, error, isLoading);
+
   return (
     <div className="grid grid-cols-2 gap-5 px-10">
       {product && (
@@ -134,6 +136,7 @@ export default function Product({ productId }: { productId: number }) {
                 onQuantityChange={handleQuantityChange}
                 initialQuantity={quantity}
                 disabled={false}
+                data-testid="quantity-selector"
               />
             </div>
             <div className="flex flex-col gap-2">
