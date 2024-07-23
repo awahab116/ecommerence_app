@@ -11,15 +11,15 @@ const handlers = [
     if (parseInt(productId ?? "") > 10) {
       return new HttpResponse(null, {
         status: 404,
-        statusText: "Product not found",
+        statusText: "Test Product not found",
       });
     } else {
       // Return a success response for productId <= 10
       return HttpResponse.json({
         id: parseInt(productId ?? ""),
-        title: "new Jeans",
+        title: `Test Product ${productId}`,
         price: 1000,
-        description: "Jeans description",
+        description: `Test Product ${productId} description`,
         image:
           "https://images.pexels.com/photos/52518/jeans-pants-blue-shop-52518.jpeg",
         category: "Clothes",
@@ -37,6 +37,21 @@ const handlers = [
     });
 
     return response;
+  }),
+
+  http.post("http://localhost:4000/orders", async () => {
+    return HttpResponse.json({
+      id: 1,
+      status: "PROCESSING",
+      totalPrice: 1000,
+      products: [
+        {
+          productId: 1,
+          quantity: 1,
+          price: 1000,
+        },
+      ],
+    });
   }),
 ];
 

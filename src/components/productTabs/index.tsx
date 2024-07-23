@@ -32,6 +32,7 @@ export default function ProductTabs() {
       <ul className="flex flex-wrap items-center justify-between bg-black font-bold text-white rounded-t-lg">
         {productTabs.map((tab) => (
           <li
+            data-testid="product-tab"
             key={tab}
             className={`px-2 py-2 cursor-pointer text-center ${
               selectedTab === tab ? "bg-[#B5B3B3] text-black" : ""

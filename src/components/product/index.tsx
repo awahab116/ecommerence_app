@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Select,
@@ -21,11 +21,18 @@ export default function Product({ productId }: { productId: number }) {
   const [quantity, setQuantity] = useState<number>(1);
   const dispatch: AppDispatch = useDispatch();
   const { data: product, error, isLoading } = useGetProductByIdQuery(productId);
-
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading product data.</p>;
+  const secondaryImage = {
+    image: "/card-image.webp",
+    alt: "Secondary Image",
+  };
+
+  useEffect(() => {
+    if (product) {
+      setSelectedImage(product.image);
+    }
+  }, [product]);
 
   const handleAddToCart = () => {
     if (product) {
@@ -43,6 +50,9 @@ export default function Product({ productId }: { productId: number }) {
     setSelectedImage(image);
   };
 
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading product data.</p>;
+
   console.log("product , error, isLoading", product, error, isLoading);
 
   return (
@@ -54,29 +64,31 @@ export default function Product({ productId }: { productId: number }) {
               <div
                 className={`relative h-[120px] w-[80px] overflow-hidden border ${
                   selectedImage === product.image
-                    ? "border-gray-500"
+                    ? "border-black"
                     : "border-gray-300"
                 } mb-[15px] cursor-pointer`}
+                data-testid="first-scroller-image"
                 onClick={() => handleImageClick(product.image)}
               >
                 <Image
                   src={product.image}
-                  alt={product.description}
+                  alt={`first scroller image ${product.description}`}
                   objectFit="fill"
                   layout="fill"
                 />
               </div>
               <div
                 className={`relative h-[120px] w-[80px] overflow-hidden border-[2px] ${
-                  selectedImage === "/card-image.webp"
+                  selectedImage === secondaryImage.image
                     ? "border-black"
-                    : "border-transparent"
+                    : "border-gray-300"
                 } mb-[15px] cursor-pointer`}
-                onClick={() => handleImageClick("/card-image.webp")}
+                data-testid="second-scroller-image"
+                onClick={() => handleImageClick(secondaryImage.image)}
               >
                 <Image
-                  src="/card-image.webp"
-                  alt={product.description}
+                  src={secondaryImage.image}
+                  alt={`second scroller image ${secondaryImage.alt}`}
                   objectFit="fill"
                   layout="fill"
                 />
@@ -84,7 +96,11 @@ export default function Product({ productId }: { productId: number }) {
             </div>
             <Image
               src={selectedImage || product.image}
-              alt={product.description}
+              alt={
+                selectedImage === secondaryImage.image
+                  ? `Main secondary image ${secondaryImage.alt}`
+                  : `Main image ${product.description}`
+              }
               width={800}
               height={1200}
               layout="responsive"

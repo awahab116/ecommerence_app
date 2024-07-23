@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "coverage": "jest test --coverage --watchAll --collectCoverageFrom='./src/components/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
