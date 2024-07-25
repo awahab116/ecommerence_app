@@ -61,6 +61,7 @@ const cartSlice = createSlice({
       }
     },
     resetCart: (state) => {
+      console.log("resetCart");
       return initialState;
     },
   },

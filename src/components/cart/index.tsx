@@ -1,5 +1,5 @@
 "use client";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/provider/redux/store";
 import { Button } from "../ui/button";
 import CartItem from "../cartItem";
@@ -7,18 +7,20 @@ import OrderNote from "../orderNote";
 import CartSummary from "@/components/cartSummary";
 import { useAddOrderMutation } from "@/provider/redux/mutation";
 import { useRouter } from "next/navigation";
+import { resetCart } from "@/provider/redux/cartSlice";
 
 export default function Cart() {
   const [addCart, { isError, isLoading }] = useAddOrderMutation();
   const cart = useSelector((state: RootState) => state.cart);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   console.log("Cart is ", cart);
 
   const handleCheckout = () => {
     addCart(cart)
       .unwrap()
-      .then((res) => {
+      .then(async (res) => {
         console.log("Res is ", res);
         router.push(`/checkout/${res.id}`);
       });

@@ -24,9 +24,11 @@ describe("Product component", () => {
 
     expect(screen.getByText(/Test Product/i)).toBeInTheDocument();
 
-    const price = screen.getByText(/(\$[\d.]+)/);
+    const price = screen.getByText(/Rs\.\s?\d+/);
     expect(price).toBeInTheDocument();
-    expect(price).toHaveTextContent("$100");
+    expect(price).toHaveTextContent("Rs. 10");
+
+    screen.debug();
   });
 
   it("should update quantity when quantity selector changes", async () => {

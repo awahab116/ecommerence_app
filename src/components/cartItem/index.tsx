@@ -21,7 +21,6 @@ const CartItem: React.FC<CartItemProps> = ({
   const dispatch = useDispatch();
 
   const handleQuantityChange = (newQuantity: number) => {
-    console.log("handleQuantityChange", newQuantity);
     setQuantity(newQuantity);
     dispatch(
       updateProductQuantity({
@@ -36,19 +35,28 @@ const CartItem: React.FC<CartItemProps> = ({
   if (error) return <div>Error loading product</div>;
 
   return (
-    <div className="flex justify-start items-start gap-2 pb-5 border-b border-gray-300 mb-5 text-black max-w-full overflow-hidden">
+    <div
+      data-testid={`cart-item-${productId}`}
+      className="flex justify-start items-start gap-2 pb-5 border-b border-gray-300 mb-5 text-black max-w-full overflow-hidden"
+    >
       <Image
         width={100}
         height={100}
-        src={product?.image || "/cart-product.webp"}
-        alt={product?.title || "Product Image"}
+        src={product?.image!}
+        alt={product?.title!}
         className="h-[100px] w-[100px] object-contain flex-shrink-0"
+        data-testid={`product-image-${productId}`}
       />
       <div className="flex flex-col w-full gap-2">
-        <p className="text-[18px]">{product?.title || "Product Name"}</p>
+        <p className="text-[18px]" data-testid={`product-title-${productId}`}>
+          {product?.title}
+        </p>
         <div>
-          <p className="text-[14px]">
-            <b>Category:</b> {product?.category || "Product Category"}
+          <p
+            className="text-[14px]"
+            data-testid={`product-category-${productId}`}
+          >
+            <b>Category:</b> {product?.category}
           </p>
         </div>
         <div className="flex justify-between items-center">
@@ -57,8 +65,11 @@ const CartItem: React.FC<CartItemProps> = ({
             disabled={disableQuantityChange}
             onQuantityChange={handleQuantityChange}
           />
-          <p className="text-[18px] font-bold">
-            Rs. {product?.price ? product.price * quantity : 0}
+          <p
+            className="text-[18px] font-bold"
+            data-testid={`product-price-${productId}`}
+          >
+            Rs. {product?.price! * quantity}
           </p>
         </div>
       </div>

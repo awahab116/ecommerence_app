@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NotebookPen, CircleX } from "lucide-react";
 
 interface OrderNoteProps {}
 
@@ -15,22 +16,20 @@ const OrderNote: React.FC<OrderNoteProps> = () => {
 
   return (
     <div className="mt-5">
-      <div className="flex items-center">
+      <div className="flex items-center justify-between">
         <p className="text-black">Add Order note </p>
         {!isAddingNote ? (
-          <span
+          <NotebookPen
+            data-testid="add-note-icon"
             className="text-black cursor-pointer"
             onClick={handleAddNoteClick}
-          >
-            O
-          </span>
+          />
         ) : (
-          <span
+          <CircleX
+            data-testid="close-note-icon"
             className="text-black cursor-pointer"
             onClick={handleCloseNoteClick}
-          >
-            X
-          </span>
+          />
         )}
       </div>
       {isAddingNote && (

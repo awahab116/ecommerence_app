@@ -144,7 +144,7 @@ export default function Product({ productId }: { productId: number }) {
             </div>
             <div>
               <p>Price</p>
-              <h2 className="text-2xl text-red-500">${product.price}</h2>
+              <h2 className="text-2xl text-red-500">Rs. {product.price}</h2>
             </div>
             <div>
               <p>Quantity</p>

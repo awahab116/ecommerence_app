@@ -18,7 +18,7 @@ const handlers = [
       return HttpResponse.json({
         id: parseInt(productId ?? ""),
         title: `Test Product ${productId}`,
-        price: 1000,
+        price: 10,
         description: `Test Product ${productId} description`,
         image:
           "https://images.pexels.com/photos/52518/jeans-pants-blue-shop-52518.jpeg",
