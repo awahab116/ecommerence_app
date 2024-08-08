@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import { act, screen, waitFor, fireEvent } from "@testing-library/react";
 import Cart from "../src/components/cart";
 import CartMenu from "@/components/cartMenu";

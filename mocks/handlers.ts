@@ -53,6 +53,15 @@ const handlers = [
       ],
     });
   }),
+
+  http.get("http://localhost:4000/stats", async () => {
+    return HttpResponse.json({
+      totalRevenue: 10000,
+      totalOrders: 100,
+      totalProducts: 100,
+      totalUsers: 10,
+    });
+  }),
 ];
 
 export { handlers };

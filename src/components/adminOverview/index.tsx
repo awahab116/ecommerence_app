@@ -22,25 +22,25 @@ export default function AdminOverview() {
       <StatCard
         name="Revenue"
         statLogo={<BadgeDollarSign />}
-        price={"$" + (data?.totalRevenue?.toString() || "0")}
+        price={"$" + data?.totalRevenue?.toString()!}
         value="+30$"
       />
       <StatCard
         name="Orders"
         statLogo={<ShoppingCart />}
-        price={data?.totalOrders?.toString() || "0"}
+        price={data?.totalOrders?.toString()!}
         value="+42"
       />
       <StatCard
         name="Products"
         statLogo={<ReceiptText />}
-        price={data?.totalProducts?.toString() || "0"}
+        price={data?.totalProducts?.toString()!}
         value="+5"
       />
       <StatCard
         name="Users"
         statLogo={<UsersRound />}
-        price={data?.totalUsers?.toString() || "0"}
+        price={data?.totalUsers?.toString()!}
         value="+1"
       />
     </div>

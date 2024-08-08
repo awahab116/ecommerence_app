@@ -3,16 +3,6 @@ import { screen, fireEvent, within } from "@testing-library/react";
 import Product from "../src/components/product";
 import { renderWithProviders } from "@/lib/mock-redux-wrapper";
 import mockStore from "../src/lib/mock-store";
-import { server } from "../mocks/server";
-
-// Enable API mocking before tests.
-beforeAll(() => server.listen());
-
-// Reset any runtime request handlers we may add during the tests.
-afterEach(() => server.resetHandlers());
-
-// Disable API mocking after the tests are done.
-afterAll(() => server.close());
 
 jest.setTimeout(100000);
 
